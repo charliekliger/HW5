@@ -24,6 +24,6 @@ public class HuffmanTree
 
     public static void main(String[] args)
     {
-
+        int num = (int) Math.pow(3, 2);
     }
 }

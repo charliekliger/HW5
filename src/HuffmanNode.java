@@ -15,18 +15,20 @@ public class HuffmanNode implements Comparable
     {
         this.left = left;
         this.right = right;
+        letter = left.letter + right.letter;
+        frequency = left.frequency + right.frequency;
     }
-
 
     @Override
     public int compareTo(Object o)
     {
-        return 0;
+        HuffmanNode huff = (HuffmanNode) o;
+        return frequency.compareTo(huff.frequency);
     }
 
     @Override
     public String toString()
     {
-        return super.toString();
+        return "<" + letter + ", " + frequency + ">";
     }
 }
