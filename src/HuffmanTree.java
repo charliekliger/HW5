@@ -37,11 +37,18 @@ public class HuffmanTree
 
     public static HuffmanTree createFromHeap(BinaryHeap<HuffmanNode> b)
     {
-        return null;
+        while (b.getSize() > 1)
+            b.insert(new HuffmanNode(b.deleteMin(), b.deleteMin()));
+
+        return new HuffmanTree(b.deleteMin());
     }
 
     public static void main(String[] args)
     {
-        int num = (int) Math.pow(3, 2);
+        String legend = "A 20 E 24 G 3 H 4 I 17 L 6 N 5 O 10 S 8 V 1 W 2";
+        BinaryHeap<HuffmanNode> bHeap = legendToHeap(legend);
+        bHeap.printHeap();
+        HuffmanTree hTree = createFromHeap(bHeap);
+        hTree.printLegend();
     }
 }
