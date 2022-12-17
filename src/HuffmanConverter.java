@@ -62,6 +62,33 @@ public class HuffmanConverter
         return contents.toString();
     }
 
+    public void treeToCode()
+    {
+        treeToCode(huffmantree.root, "");
+    }
+
+    private void treeToCode(HuffmanNode t, String s)
+    {
+        if (t.letter.length() > 1)
+        {
+            treeToCode(t.left, s + "0");
+            treeToCode(t.right, s + "1");
+        }
+
+        if (t.letter.length() == 1)
+            code[t.letter.toCharArray()[0]] = s;
+    }
+
+    public String encodeMessage()
+    {
+        StringBuilder encodedMessage = new StringBuilder();
+
+        for (char c : contents.toCharArray())
+            encodedMessage.append(code[c]);
+
+        return encodedMessage.toString();
+    }
+
     public static void main(String[] args)
     {
         String filename = args[0];
