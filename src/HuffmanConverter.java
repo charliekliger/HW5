@@ -1,9 +1,11 @@
+import java.awt.*;
 import java.io.FileReader;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class HuffmanConverter
 {
+    public static final int BYTE_SIZE = 8;
     public static final int NUMBER_OF_CHARACTERS = 256;
     private String contents;
     private HuffmanTree huffmantree;
@@ -89,13 +91,51 @@ public class HuffmanConverter
         return encodedMessage.toString();
     }
 
+    public String decodedMessage(String encodedStr)
+    {
+        StringBuilder decodedStr = new StringBuilder();
+
+        HuffmanNode curr = huffmantree.root;
+        for (char c : encodedStr.toCharArray())
+        {
+            if (c == '0')
+                curr = curr.left;
+            else
+                curr = curr.right;
+
+            if (curr.left == null && curr.right == null)
+            {
+                decodedStr.append(curr.letter);
+                curr = huffmantree.root;
+            }
+        }
+
+        return decodedStr.toString();
+    }
+
     public static void main(String[] args)
     {
         String filename = args[0];
         String contents = readContents(filename);
+        int decodedBytes = contents.length() * BYTE_SIZE;
+
+
         HuffmanConverter huffmanConverter = new HuffmanConverter(contents);
         huffmanConverter.recordFrequencies();
         huffmanConverter.recordUniqueChars();
         huffmanConverter.frequenciesToTree();
+        huffmanConverter.treeToCode();
+        String encodedStr = huffmanConverter.encodeMessage();
+        int encodedBytes = encodedStr.length();
+
+        System.out.println("\nHuffman Encoding:");
+        System.out.println(encodedStr);
+
+        System.out.println("\nMessage size in ASCII encoding: " + decodedBytes);
+        System.out.println("Message size in Huffman coding: " + encodedBytes);
+
+        String decodedStr = huffmanConverter.decodedMessage(encodedStr);
+        System.out.println("\n" + decodedStr);
+
     }
 }
